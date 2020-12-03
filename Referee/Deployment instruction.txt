@@ -1,0 +1,11 @@
+(In local machine)
+Deployment:
+1. Load the referee contract in: https://remix.ethereum.org/
+2. Start Ganache workspace
+3. Select the Environment "Web3 Provider" in remix "DEPLOY & RUN TRANSACTIONS" tab
+	-> add the Web3 Provider Endpoint: http://127.0.0.1:XXXX (for XXXX see the RPC server PORT NUMBER in Ganache)
+4. Select one of the accounts in Remix and "Deploy" 
+5. See "TRANSACTIONS" tab in Ganache for the contract creation transaction. 
+
+Interaction:
+Once deployed the referee contract functions can be called from remix with necessary data as input.
