@@ -5,9 +5,9 @@ A Refereed delegation of computation system using smart contract.
 - [Solidity Compiler](https://docs.soliditylang.org/en/v0.5.17/installing-solidity.html): to compile Solidity program.
 - [evm-tools](https://github.com/CoinCulture/evm-tools): a collection of tools for working with the evm.
 - [Remix](https://remix.ethereum.org/): a browser-based IDE.
+- [Ganache](https://www.trufflesuite.com/ganache): personal blockchain for Ethereum application development.
 
 ## Fides Functionalities
-
 - [Client](#client)
 - [Server](#server)
 - [Referee](#referee)
@@ -60,19 +60,18 @@ to the referee contract on Blockchain.
 
 5. Send the outputs from 4(d), (e) and the length of RC array to the referee contract.
 6. (Once the SC asks to reveal result), send the value from final result:txt to SC.
-(In case of inconsistency)
- For binary-search:
-- Get the hash of the reduced configuration and Merkle proof for index j:
-python3 state files to merkle tree.py <state j:txt>
- For single-step execution:
-(a) get Merkle proof for step ng
-python3 state files to merkle tree.py <state ng:txt> getProof ng
-(b) get deployable bytecode
-(i) construct state bytecode for ng:
-python3 generate state bytecode.py <state ng:txt>
-- it will output state bytecode (in state bytecode:txt) for ng.
-(ii) construct deployable bytecode by appending constructor code to state bytecode
-(using evm-tools):
-echo $(cat state bytecode.txt) j evm-deploy > deploy code.txt
- Send the data from state ng:txt, proof for ng, state nb:txt, and deploy code:txt to SC.
+### (In case of inconsistency)
+
+#### (i) For binary-search:
+- Get the hash of the reduced configuration and Merkle proof for index j: `python3 state_files_to_merkle_tree.py <state_j.txt>`
+
+#### (ii) For single-step execution:
+- get Merkle proof for step ng: `python3 state_files_to_merkle_tree.py <state_ng.txt> getProof ng`
+- get deployable bytecode
+
+(i) construct state bytecode for ng: `python3 generate_state_bytecode.py <state_ng.txt>`. It will output state bytecode (in state_bytecode.txt) for ng.
+
+(ii) construct deployable bytecode by appending constructor code to state bytecode (using evm-tools):
+`echo $(cat state bytecode.txt) | evm-deploy > deploy_code.txt`
+- Send the data from state_ng.txt, proof for ng, state_nb.txt, and deploy_code.txt to referee smart contract.
 
