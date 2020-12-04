@@ -2,21 +2,26 @@
 A Refereed delegation of computation system using smart contract. 
 
 ## Required tools
-- [Solidity Compiler]
-- [evm-tools](https://github.com/CoinCulture/evm-tools)
-A collection of tools for working with the evm
+- [Solidity Compiler] (https://docs.soliditylang.org/en/v0.5.17/installing-solidity.html): to compile Solidity program.
+- [evm-tools](https://github.com/CoinCulture/evm-tools): a collection of tools for working with the evm.
+- [Remix](https://remix.ethereum.org/): a browser-based IDE.
 
-## Instructions
-<b>Client Functions</b>
-1. Write the delegated program ! \delegated program.sol"
-2. Compile \delegated program.sol"
-command: solc --bin-runtime --optimize -o : delegated program.sol
-- It will output the runtime bytecode \delegated program.bin-runtime".
-3. Generate commitment to the Input: The input to the delegated program consists of the
-function id and the input data.
- Get the function id: solc --hashes delegated program.sol
- Generate input to program = (function id jj input data):
-python3 input generator.py <input data:txt> <function id>
+## Fides Functionalities
+
+- [Client](#client)
+- [Server](#server)
+- [Referee](#referee)
+
+
+## Client
+1. Write the delegated program  "delegated program.sol"
+2. Compile "delegated program.sol" using solc compiler
+- command: solc --bin-runtime --optimize -o : delegated program.sol
+- It will output the runtime bytecode "delegated program.bin-runtime".
+3. Generate commitment to the Input: The input to the delegated program consists of the function id and the input data.
+- Get the function id: solc --hashes delegated program.sol
+- Generate input to program = (function id jj input data):
+  python3 input generator.py <input data:txt> <function id>
  Generate the commitment to input to program: python3 commitment.py commit
 - It will output the commitment value and the commitment key
 After executing the above operations, the client will send the followings to the smart contract and
