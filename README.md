@@ -69,9 +69,19 @@ to the referee contract on Blockchain.
 - get Merkle proof for step ng: `python3 state_files_to_merkle_tree.py <state_ng.txt> getProof ng`
 - get deployable bytecode
 
-(i) construct state bytecode for ng: `python3 generate_state_bytecode.py <state_ng.txt>`. It will output state bytecode (in state_bytecode.txt) for ng.
-
-(ii) construct deployable bytecode by appending constructor code to state bytecode (using evm-tools):
+(a) construct state bytecode for ng: `python3 generate_state_bytecode.py <state_ng.txt>`. It will output state bytecode (in state_bytecode.txt) for ng.
+(b) construct deployable bytecode by appending constructor code to state bytecode (using evm-tools):
 `echo $(cat state bytecode.txt) | evm-deploy > deploy_code.txt`
 - Send the data from state_ng.txt, proof for ng, state_nb.txt, and deploy_code.txt to referee smart contract.
+
+## Referee
+The referee is a smart contract on the Ethereum blockchain. This contract enforces the verifiable computation algorithm. It also manages
+the interactions between the client and the servers. 
+
+### Deploying referee contract
+- Start Ganache GUI
+- Deploy the referee contract using [Remix](https://remix.ethereum.org/) and set the environment as *Web3 Provider* with Endpoint: http://127.0.0.1:8545 
+### Interacting with referee contract
+- *Interaction between server and SC*: Using the browser interface that uses Web3.js library. This library gives Ethereum module for interacting with Ethereum network. 
+ 
 
