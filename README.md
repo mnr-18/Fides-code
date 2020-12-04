@@ -1,5 +1,6 @@
-Instructions to Run the Program
-November 13, 2020
+# evm-tools
+A collection of tools for working with the evm
+
 1 Client
 1. Write the delegated program ! \delegated program.sol"
 2. Compile \delegated program.sol"
