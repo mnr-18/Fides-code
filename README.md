@@ -88,6 +88,6 @@ the interactions between the client and the servers.
 
 (see the Deployment instruction in the Referee folder for more details)
 ### Interacting with referee contract
-- *Interaction between server and SC*: Using the browser interface that uses Web3.js library. This library gives Ethereum module for interacting with Ethereum network. 
+- *Interaction between server and SC*: Using the browser interface that uses Web3.js library. This library gives Ethereum module for interacting with Ethereum network. (see the setup instruction in Sever/Server_to_SC)
  
 
