@@ -1,6 +1,9 @@
 ## Fides
 A Refereed delegation of computation system using smart contract. 
 
+## How it works
+![uml_new](https://user-images.githubusercontent.com/75406127/101208983-39252d80-3630-11eb-94c3-e1ea0d91231a.jpg)
+
 ## Required tools
 - [Solidity Compiler](https://docs.soliditylang.org/en/v0.5.17/installing-solidity.html): to compile Solidity program.
 - [evm-tools](https://github.com/CoinCulture/evm-tools): a collection of tools for working with the evm.
