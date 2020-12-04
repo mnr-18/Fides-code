@@ -70,6 +70,7 @@ to the referee contract on Blockchain.
 - get deployable bytecode
 
 (a) construct state bytecode for ng: `python3 generate_state_bytecode.py <state_ng.txt>`. It will output state bytecode (in state_bytecode.txt) for ng.
+
 (b) construct deployable bytecode by appending constructor code to state bytecode (using evm-tools):
 `echo $(cat state bytecode.txt) | evm-deploy > deploy_code.txt`
 - Send the data from state_ng.txt, proof for ng, state_nb.txt, and deploy_code.txt to referee smart contract.
