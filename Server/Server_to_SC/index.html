@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Fides</title>
+
+    <link rel="stylesheet" type="text/css" href="main.css">
+    <script src="./node_modules/web3/dist/web3.min.js"></script
+</head>
+<body>
+    <div class="container">
+
+        <h1 style="text-align:center">Fides Server</h1>
+        <button id="button0">Register</button>
+        <h3>Commitment to Result</h3>
+        <label>Commitment:<input id="com" type="text"></label>
+        <label>MHroot: <input id="root" type="text"></label>
+        <label># of Steps: <input id="steps" type="text"></label>
+
+        <button id="button1">Send Commitment</button>
+        <h3>Reveal Result</h3>
+        <label>Result: <input id="res" type="text"></label>
+        <label>Key: <input id="dy" type="text"></label>
+        <button id="button2">Send Result</button>
+
+        <h3>Hashed RC Value</h3>
+        <label>HRC: <input id="hrc" type="text"></label>
+        <input type="file" id="file-input" />
+        <pre id="file-contents"></pre>
+        <button id="button3">Send HRC</button> 
+        
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+
+    <script>
+       if (typeof web3 != 'undefined'){
+           web3 = new Web3(web3.currentProvider);
+       } else {
+           web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:9545"));
+       }
+
+       web3.eth.defaultAccount = web3.eth.accounts[0];
+
+       var UContract = new web3.eth.Contract([
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_server",
+				"type": "address"
+			}
+		],
+		"name": "com_received",
+		"type": "event"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "_H_rc",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32[]",
+				"name": "_rc_proof",
+				"type": "bytes32[]"
+			}
+		],
+		"name": "receiveConfiguration",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "_y",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_key_y",
+				"type": "bytes32"
+			}
+		],
+		"name": "receiveResult",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"internalType": "bytes32",
+				"name": "_com_y",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "bytes32",
+				"name": "_root",
+				"type": "bytes32"
+			},
+			{
+				"internalType": "uint256",
+				"name": "N",
+				"type": "uint256"
+			}
+		],
+		"name": "receiveResultCommitment",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "Register",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": false,
+				"internalType": "address",
+				"name": "_Server",
+				"type": "address"
+			}
+		],
+		"name": "result_recived",
+		"type": "event"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "Cloud",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "com_key",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "com_result",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "current_state",
+		"outputs": [
+			{
+				"internalType": "enum Referee.States",
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "index",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "MRoot",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "Result",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "tape_length",
+		"outputs": [
+			{
+				"internalType": "uint256",
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	}
+],"0xA3C96b4237E2Bb46B157521f8B2Ec7b293a2e2e1");
+
+       //var Coursetro  = CoursetroContract.At('0x62484a8f19E9897C2904E097EFCa17022a4e7B75');
+       console.log(UContract);
+       
+       $("#button0").click(function() {
+        UContract.methods.Register().send({from:"0x3ADE5A0a891e75bEebAc1D9227D86415dC106eC8"});
+       });
+
+       $("#button1").click(function() {
+        UContract.methods.receiveResultCommitment($("#com").val(),$("#root").val(),$("#steps").val()).send({from:"0x3ADE5A0a891e75bEebAc1D9227D86415dC106eC8"});
+       });
+
+       $("#button2").click(function() {
+        UContract.methods.receiveResult($("#res").val(),$("#dy").val()).send({from:"0x3ADE5A0a891e75bEebAc1D9227D86415dC106eC8"});
+       });
+       
+       document.querySelector("#button3").addEventListener('click', function() {
+		let file = document.querySelector("#file-input").files[0];
+		let reader = new FileReader();
+		reader.addEventListener('load', function(e) {
+                let text = e.target.result;
+                var textByLine = text.split("\n")
+                document.querySelector("#file-contents").textContent = textByLine;
+                UContract.methods.receiveConfiguration($("#hrc").val(),["0xc2575a0e9e593c00f959f8c92f12db2869c3395a3b0502d05e2516446f71f85b","0x891370df4fadf33f50e41f7c8a791e680c0655695ea3404385a909c8f5e13fb4","0x3d414ff3f9f990e1bbed05697c0201a24bfd5be3780c459476843b865910fc61"]).send({from:"0x3ADE5A0a891e75bEebAc1D9227D86415dC106eC8",gas:200000});
+		});
+		reader.readAsText(file);
+	});
+
+       
+
+      // UContract.events.com_received({}).on('data', event => console.log(event));
+
+       
+
+        
+    </script>
+
+</body>
+</html>

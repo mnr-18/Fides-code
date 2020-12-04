@@ -1,0 +1,3 @@
+Number of steps=20
+Merkle root= e940d4f78551482a44bd1e382346c1240b46dbfa57aca1685fb1e55e0a03b6a3
+com= f6f89d491d9071461fe72cd71f8109ea4f07e041c7dc1de68cafab9e6dc7805a

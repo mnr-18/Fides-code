@@ -1,0 +1,8 @@
+0      PUSH1  => 05
+2      PUSH1  => 04
+4      ADD
+5      PUSH1  => 00
+7      MSTORE
+8      PUSH1  => 01
+10     PUSH1  => 1f
+12     RETURN

@@ -1,0 +1,5 @@
+PC 00000000:
+Instruction : 60
+STACK = 0
+MEM = 0
+STORAGE = 0
