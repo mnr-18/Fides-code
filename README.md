@@ -1,7 +1,13 @@
-# evm-tools
+## Fides
+A Refereed delegation of computation system using smart contract. 
+
+## Required tools
+- [Solidity Compiler]
+- [evm-tools](https://github.com/CoinCulture/evm-tools)
 A collection of tools for working with the evm
 
-1 Client
+## Instructions
+<b>Client Functions</b>
 1. Write the delegated program ! \delegated program.sol"
 2. Compile \delegated program.sol"
 command: solc --bin-runtime --optimize -o : delegated program.sol
