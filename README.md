@@ -2,7 +2,7 @@
 A Refereed delegation of computation system using smart contract. 
 
 ## Required tools
-- [Solidity Compiler] (https://docs.soliditylang.org/en/v0.5.17/installing-solidity.html): to compile Solidity program.
+- [Solidity Compiler](https://docs.soliditylang.org/en/v0.5.17/installing-solidity.html): to compile Solidity program.
 - [evm-tools](https://github.com/CoinCulture/evm-tools): a collection of tools for working with the evm.
 - [Remix](https://remix.ethereum.org/): a browser-based IDE.
 
@@ -21,33 +21,33 @@ solc --bin-runtime --optimize -o : delegated program.sol
 ```
 - It will output the runtime bytecode "delegated program.bin-runtime".
 3. Generates commitment to the Input: The input to the delegated program consists of the function id and the input data.
-(i) Get the function id: 
-```
-solc --hashes delegated program.sol
-```
+(i) Get the function id: `solc --hashes delegated program.sol`
+
 (ii) Generate input to program = (function id || input data):
 ```
 python3 input generator.py <input data:txt> <function id>
 ```
-(iii) Generate the commitment to input to program: 
-```
-python3 commitment.py commit
-```
+(iii) Generate the commitment to input to program: `python3 commitment.py commit`
 - It will output the commitment value and the commitment key
+
 After executing the above operations, the client will send the followings to the smart contract and
 to the servers.
- To referee contract: The client will send the \delegated program.bin-runtime" and \commitment value"
+- *To referee contract*: The client will send the "delegated program.bin-runtime" and "commitment value"
 to the referee contract on Blockchain.
- To servers: The client will send the \delegated program.sol", \input to program" and \com-
-mitment key" to the servers.
-2 Server
-1. Register for computation by calling the Register() function of the referee contract.
+- *To servers*: The client will send the "delegated program.sol", "input to program" and "commitment key" to the servers.
+
+## Server
+1. Registers for computation by calling the Register() function of the referee contract.
 2. Check whether received input is correct or not:
- Generate the commitment to input to program: python3 commitment.py commit
- Verify: python3 commitment.py verify <commitment value> <commitment key>
-1
-Fides
+- Generate the commitment to input to program: `python3 commitment.py commit`
+- Verify: `python3 commitment.py verify <commitment value> <commitment key>`
+
 3. Check for non-deterministic instructions in program bytecode.
+(i) (using evm-tools run following command)
+```
+echo $(cat delegated_program.bin-runtime) | disasm > evm_instructions.txt
+```
+(ii) Then run: `python3 check_determinism.py evm_instructions.txt`
 4. Program execution:
 (a) Execute computation and save the intermediate state data into an output file:
 evm --debug --code <delegated program:bin􀀀runtime> --input <input to program> 2>
