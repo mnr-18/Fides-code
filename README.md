@@ -17,7 +17,7 @@ A Refereed delegation of computation system using smart contract.
 1. Writes the delegated program  "delegated program.sol"
 2. Compiles "delegated program.sol" using solc compiler
 ```
-solc --bin-runtime --optimize -o : delegated_program.sol
+solc --bin-runtime --optimize -o . delegated_program.sol
 ```
 - It will output the runtime bytecode "delegated_program.bin-runtime".
 3. Generates commitment to the Input: The input to the delegated program consists of the function id and the input data.
@@ -26,11 +26,20 @@ solc --bin-runtime --optimize -o : delegated_program.sol
 
 - Generate input to program = (function id || input data):
 ```
-python3 input generator.py <input data:txt> <function id>
+python input generator.py <input data:txt> <function id>
 ```
-- Generate the commitment to input to program: `python3 commitment.py commit`
+- Generate the commitment to input to program: `python commitment.py commit`
 
 -- It will output the commitment value and the commitment key
+
+The above steps (2) and (3) can be run together using the *client.sh* script. To run the *client.sh* file (from Windows using *wsl* or in Ubuntu) use the following commands:
+```
+chmod +x client.sh
+```
+```
+./client.sh
+```
+
 
 After executing the above operations, the client will send the followings to the smart contract and
 to the servers.
@@ -41,17 +50,17 @@ to the referee contract on Blockchain.
 ## Server
 1. Registers for computation by calling the *Register()* function of the referee contract.
 2. Check whether received input is correct or not:
-- Generate the commitment to input to program: `python3 commitment.py commit`
-- Verify: `python3 commitment.py verify <commitment value> <commitment key>`
-
+- Generate the commitment to input to program: `python commitment.py commit`
+- Verify: `python commitment.py verify <commitment value> <commitment key>`
 3. Check for non-deterministic instructions in program bytecode.
-(i) (using evm-tools run following command)
+- (using evm-tools run following command)
 ```
 echo $(cat delegated_program.bin-runtime) | disasm > evm_instructions.txt
 ```
-(ii) Then run: `python3 check_determinism.py evm_instructions.txt`
+- Then run: `python3 check_determinism.py evm_instructions.txt`
+
 4. Program execution:
-(a) Execute computation and save the intermediate state data into an output file:
+-(a) Execute computation and save the intermediate state data into an output file:
 evm --debug --code <delegated program:bin􀀀runtime> --input <input to program> 2>
 1 j tee output.txt
 (b) Generate state files for each intermediate state from the output file:
