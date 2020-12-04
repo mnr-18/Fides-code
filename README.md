@@ -9,6 +9,7 @@ A Refereed delegation of computation system using smart contract.
 - [evm-tools](https://github.com/CoinCulture/evm-tools): a collection of tools for working with the evm.
 - [Remix](https://remix.ethereum.org/): a browser-based IDE.
 - [Ganache](https://www.trufflesuite.com/ganache): personal blockchain for Ethereum application development.
+- [web3.js](https://web3js.readthedocs.io/en/v1.3.0/getting-started.html#adding-web3):a Javascript library that contains functionality for the ethereum ecosystem.
 
 ## Fides Functionalities
 - [Client](#client)
