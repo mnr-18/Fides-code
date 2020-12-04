@@ -6,6 +6,3 @@ Deployment:
 	-> add the Web3 Provider Endpoint: http://127.0.0.1:XXXX (for XXXX see the RPC server PORT NUMBER in Ganache)
 4. Select one of the accounts in Remix and "Deploy" 
 5. See "TRANSACTIONS" tab in Ganache for the contract creation transaction. 
-
-Interaction:
-Once deployed the referee contract functions can be called from remix with necessary data as input.
