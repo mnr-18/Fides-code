@@ -82,6 +82,8 @@ the interactions between the client and the servers.
 ### Deploying referee contract
 - Start Ganache GUI
 - Deploy the referee contract using [Remix](https://remix.ethereum.org/) and set the environment as *Web3 Provider* with Endpoint: http://127.0.0.1:8545 
+
+(see the Deployment instruction in the Referee folder for more details)
 ### Interacting with referee contract
 - *Interaction between server and SC*: Using the browser interface that uses Web3.js library. This library gives Ethereum module for interacting with Ethereum network. 
  
