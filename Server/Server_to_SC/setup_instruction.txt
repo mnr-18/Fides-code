@@ -1,0 +1,11 @@
+1. Install following:
+
+npm install web3 --save
+npm install web3.js-browser
+
+
+2. Open index.html in any text editor (e.g., Visual Studio Code)
+3. Copy the ABI from remix and update it in the index.html file.
+4. Update the contract address in the index.html file.
+5. Update the sender address
+6. Save and open index.html in any browser.
