@@ -166,8 +166,8 @@ contract scCRR{
             }
             //Update computation state to complete
             current_state = States.Computation_complete;            
-        }
-        else{   //results mismatch
+       }
+       else{   //results mismatch
             resultMatch = false;  
 	    if (valid_opening1 == true && valid_opening2 == false){
 	        IncorrectOpening = true;
