@@ -27,6 +27,8 @@ contract scCRR{
     mapping (address => bool) public sentResult;  // has sent the enc. result?
     bytes32[2] public com_key;     // key to commitment
     bool public resultMatch;       // does the result match?
+    bool public copyDetected;
+    bool public IncorrectOpening;
     string public resultStatus = "No Result"; 
     bytes32 public final_output;   // correct encrypted output
     uint public  _case;
@@ -138,42 +140,59 @@ contract scCRR{
     //if matches, result confirmation phase starts
     //if mismatch, binary_search phase starts
     function Compare () internal {
-        //require (hasDeliver[Cloud[0]] == true && hasDeliver[Cloud[1]] == true,"Both results not received");
+        bool valid_opening1;
+        bool valid_opening2;
+        valid_opening1 = verify_commitment(com_result[0], Result[0], com_key[0]);
+        valid_opening2 = verify_commitment(com_result[1], Result[1], com_key[1]);
+	//require (hasDeliver[Cloud[0]] == true && hasDeliver[Cloud[1]] == true,"Both results not received");
         if (Result[0] == Result[1] && tape_length[0]==tape_length[1]){ //results match
             resultMatch = true;
-            //verify commitment to encrypted result
-            bool valid_opening1;
-            bool valid_opening2;
-            valid_opening1 = verify_commitment(com_result[0], Result[0], com_key[0]);
-            valid_opening2 = verify_commitment(com_result[1], Result[1], com_key[1]);
+            //verify commitment to result
+            
             if (valid_opening1 == true && valid_opening2 == true){
-                resultStatus = "Correct result";
-                final_output = Result[0];
+	        copyDetected = false;
+		final_output = Result[0];
+                resultStatus = "Correct result";              
             }
             else if (valid_opening1 == true && valid_opening2 == false){
-                resultStatus = "Correct result";
+                copyDetected = true;
                 final_output = Result[0];
+		resultStatus = "Correct result";
             }
             else if (valid_opening1 == false && valid_opening2 == true){
-                resultStatus = "Correct result";
+                copyDetected = true;
                 final_output = Result[1];
+		resultStatus = "Correct result";
             }
             //Update computation state to complete
             current_state = States.Computation_complete;            
         }
         else{   //results mismatch
             resultMatch = false;  
-            uint nb = minimum (tape_length[0],tape_length[1]);
-            uint ng = binary_search(nb);
-            if (ng == 0){
-                current_state = States.Computation_complete;
+	    if (valid_opening1 == true && valid_opening2 == false){
+	        IncorrectOpening = true;
+		final_output = Result[0];
+                resultStatus = "Correct result";              
             }
-            else{
-                for (uint j = 0; j < 2; j++){
-                    emit provideConfig(ng, ng+1, Cloud[j]);
-                    emit sendProof(Cloud[j], ng);
-                }
-            }   
+	    else if (valid_opening1 == false && valid_opening2 == true){
+                IncorrectOpening = true;
+                final_output = Result[1];
+		resultStatus = "Correct result";
+            }
+	    else{
+                IncorrectOpening = false;         
+            	uint nb = minimum (tape_length[0],tape_length[1]);
+            	uint ng = binary_search(nb);
+            	if (ng == 0){
+                	current_state = States.Computation_complete;
+            	}
+            	else{
+                	for (uint j = 0; j < 2; j++){
+                    		emit provideConfig(ng, ng+1, Cloud[j]);
+                    		emit sendProof(Cloud[j], ng);
+                	}
+            	}
+	    }
         } 
     }
   
