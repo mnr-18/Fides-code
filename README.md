@@ -2,7 +2,7 @@
 A Refereed delegation of computation system using smart contract. 
 
 ## How it works
-![uml_new](https://user-images.githubusercontent.com/75406127/101208983-39252d80-3630-11eb-94c3-e1ea0d91231a.jpg)
+![uml_final](https://user-images.githubusercontent.com/75406127/144135371-bdeefb8a-fd00-4537-b8bc-df81377122b5.jpg)
 
 ## Required tools
 - [Solidity Compiler](https://docs.soliditylang.org/en/v0.5.17/installing-solidity.html): to compile Solidity program.
