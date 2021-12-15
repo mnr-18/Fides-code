@@ -1,6 +1,6 @@
 pragma solidity 0.5.17;
 
-contract cmCRR{
+contract scRDoC{
 
     //---- Constructor and Intitialization variables ----
     address public referee_owner;
