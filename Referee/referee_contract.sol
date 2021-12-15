@@ -78,7 +78,6 @@ contract cmCRR{
         bytes32 op_ng;
         bytes32[] MTproof_op_ng;
         bool op_truth;
-
     }
    mapping(address => SingleStep) clouds;
 
@@ -101,7 +100,6 @@ contract cmCRR{
         //if (msg.sender == PG) _;
     //}
 
-    //"0x60298f78cc0b47170ba79c10aa3851d7648bd96f2f8e46a19dbc777c36fb0c00","0x60298f78cc0b47170ba79c10aa3851d7648bd96f2f8e46a19dbc777c36fb0c63","0x60298f78cc0b47170ba79c10aa3851d7648bd96f2f8e46a19dbc777c36fb0c2f"
     //_B_f: computation bytecode; _com_x: commitment to input; _Mroot: Merkle root on computation
     function Initialize (bytes32 _B_f, bytes32 _com_x, bytes32 _Mroot) public{
         PG = msg.sender;
@@ -119,10 +117,8 @@ contract cmCRR{
         index = index+1;
 	}
 
-
-    //"0xf6332ded6622db8353cc975cb086aed1c4b33da5ce8f1af568f44876c4f4e487","0x60298f78cc0b47170ba79c10aa3851d7648bd96f2f8e46a19dbc777c36fb0c63","780"
-    //Function to receive commitment to encrypted result from cloud
-    //Each cloud sends the commitment to encrypted result, merkle root on reduced config and number of steps required
+    //Function to receive commitment to result from server
+    //Each server sends the commitment to the result, merkle root on reduced config and number of steps required
     function receiveResultCommitment (bytes32 com_y, bytes32 _root, uint N) public{
         assert(msg.sender == Cloud[0] || msg.sender == Cloud[1]);
         //record the commitment to encrypted result, Mroot on reduced config and #of steps
@@ -137,14 +133,13 @@ contract cmCRR{
             tape_length[1] = N;
         }
         hasDeliver[msg.sender] = true;
-        // if both clouds delivered then ask for revealing the encrypted result
+        // if both servers delivered then ask for revealing the encrypted result
         if (hasDeliver[Cloud[0]] == true && hasDeliver[Cloud[1]] == true) {
                 emit revealResult("Reveal encrypted results");
         }
     }
 
     //Function to receive revealed results of the servers
-    //[[5,7,9,10,1,2,3,4,5,6],[2,3,3,8,1,2,3,4,5,6],[8,10,2,3,1,2,3,4,5,6],[3,3,4,8,1,2,3,4,5,6],[5,7,9,10,1,2,3,4,5,6],[2,3,3,8,1,2,3,4,5,6],[8,10,2,3,1,2,3,4,5,6],[3,3,4,8,1,2,3,4,5,6],[3,3,4,8,1,2,3,4,5,6],[5,7,9,10,1,2,3,4,5,6]], "0x60298f78cc0b47170ba79c10aa3851d1248bd96f2f8e46a19dbc777c36fb0c2f"
     function receiveResult (uint256[10][10] memory _y, bytes32 _key_y) public{
         assert(msg.sender == Cloud[0] || msg.sender == Cloud[1]);
         if (msg.sender == Cloud[0]){
@@ -339,9 +334,7 @@ contract cmCRR{
 
     // =============== Single step execution ==================================
 
-    //Sample input arguments for calling "receive_state_data" function
-   // "0x600f80600b6000396000f36101016101020160005260206000f3", "0x0000000000000000000000000000000000000000000000000000000000000009", "0x10d25c89b673e0688e39a8bb427fcb1835479366affa54327ad3174030ab9dae", "0x0000000000000000000000000000000000000000000000000000000000000203", ["0xc2575a0e9e593c00f959f8c92f12db2869c3395a3b0502d05e2516446f71f85b", "0x891370df4fadf33f50e41f7c8a791e680c0655695ea3404385a909c8f5e13fb4", "0x3d414ff3f9f990e1bbed05697c0201a24bfd5be3780c459476843b865910fc61"]
-   function receive_state_data (bytes memory  _stateBytecode, bytes memory _PrevOutput, bytes32 _op_ng, bytes32 _RCroot, bytes memory _claimedOutput, bytes32[] memory _proof_op, bytes32[] memory _proof_RC) public {
+    function receive_state_data (bytes memory  _stateBytecode, bytes memory _PrevOutput, bytes32 _op_ng, bytes32 _RCroot, bytes memory _claimedOutput, bytes32[] memory _proof_op, bytes32[] memory _proof_RC) public {
         assert(msg.sender == Cloud[0] || msg.sender == Cloud[1]);
         uint256 x;
         if (msg.sender == Cloud[0]) x=0;
